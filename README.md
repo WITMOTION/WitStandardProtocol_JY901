@@ -1,1 +1,16 @@
+# 使用说明
+
+文件夹名称为平台或者变成语言，使用前请按照您的所属平台和和所用编程语言来找对对应的文件夹
+
+The folder name is platform or language. Please find the corresponding folder according to your platform and programming language before using it
+
+
+示例程序中文说明文档
+
+https://wit-motion.yuque.com/wumwnr/ltst03/ucpd40hsgx3ymywv?singleDoc# 《标准精度WIT协议-姿态传感器》
+
+Sample program English documentation
+
+https://support-73.gitbook.io/developer/~/changes/5u2oWJb0i3GwfwPMdTt4/wit-standard-protocol
+
 
