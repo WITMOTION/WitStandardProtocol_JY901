@@ -1,0 +1,18 @@
+<!--imu 和 rviz 同时打开-->
+
+<launch>
+
+    <!-- imu型号，默认 normal -->
+    <arg name="type" default="normal" doc="type [normal, modbus, hmodbus, can, hcan]"/>
+
+    <!-- imu 对应 python 文件 -->
+    <node pkg="wit_ros_imu" type="wit_$(arg type)_ros.py" name="imu" output="screen">
+        <param name="port"               type = "str"    value="/dev/ttyUSB0"/>
+        <param name="baud"               type = "int"    value="9600"/>
+    </node>
+
+    <!-- 加载 rviz -->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find wit_ros_imu)/rviz/wit_ros_imu.rviz">
+    </node>
+
+</launch>   

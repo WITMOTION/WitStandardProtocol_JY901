@@ -1,0 +1,18 @@
+<!--imu ros 驱动-->
+<launch>
+    <!-- imu型号，默认 normal -->
+    <!-- hcan请选择230400波特率 -->
+    <arg name="type" default="normal" doc="type [normal, modbus, hmodbus, can, hcan]"/>
+
+    <!-- imu 对应 python 文件 -->
+    <node pkg="wit_ros_imu" type="wit_$(arg type)_ros.py" name="imu" output="screen">
+        <param name="port"               type = "str"    value="/dev/ttyUSB0"/>
+        <param name="baud"               type = "int"    value="9600"/>
+    </node>
+
+	<!--
+    <node pkg="wit_ros_imu" type="get_imu_rpy.py" name="get_imu" output="screen">
+    </node>
+	-->
+</launch>
+
