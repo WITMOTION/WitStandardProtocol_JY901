@@ -16,9 +16,11 @@ from modbus_tk import modbus_rtu
 
 # 查找 ttyUSB* 设备
 def find_ttyUSB():
-    print('imu 默认串口为 /dev/ttyUSB0, 若识别多个串口设备, 请在 launch 文件中修改 imu 对应的串口')
+    #print('imu 默认串口为 /dev/ttyUSB0, 若识别多个串口设备, 请在 launch 文件中修改 imu 对应的串口')
+	print('The default serial port of the imu is /dev/ttyUSB0, if multiple serial port devices are identified, modify the serial port corresponding to the imu in the launch file')
     posts = [port.device for port in serial.tools.list_ports.comports() if 'USB' in port.device]
     print('当前电脑所连接的 {} 串口设备共 {} 个: {}'.format('USB', len(posts), posts))
+	print('There are {} {} serial port devices connected to the current PC: {}'.format(len(posts), 'USB', posts))
 
 
         

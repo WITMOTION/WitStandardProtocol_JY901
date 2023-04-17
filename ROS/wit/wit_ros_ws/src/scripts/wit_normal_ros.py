@@ -16,11 +16,13 @@ from std_msgs.msg import String
 from tf.transformations import quaternion_from_euler
 
 
-# 查找 ttyUSB* 设备
+# 查找 ttyUSB* 设备		Look for ttyUSB* devices
 def find_ttyUSB():
-    print('imu 默认串口为 /dev/ttyUSB0, 若识别多个串口设备, 请在 launch 文件中修改 imu 对应的串口')
+    #print('imu 默认串口为 /dev/ttyUSB0, 若识别多个串口设备, 请在 launch 文件中修改 imu 对应的串口')
+	print('The default serial port of the imu is /dev/ttyUSB0, if multiple serial port devices are identified, modify the serial port corresponding to the imu in the launch file')
     posts = [port.device for port in serial.tools.list_ports.comports() if 'USB' in port.device]
     print('当前电脑所连接的 {} 串口设备共 {} 个: {}'.format('USB', len(posts), posts))
+	print('There are {} {} serial port devices connected to the current PC: {}'.format(len(posts), 'USB', posts))
 
 
 # 校验
@@ -61,14 +63,14 @@ def handleSerialData(raw_data):
             if checkSum(data_buff[0:10], data_buff[10]):
                 acceleration = [hex_to_short(data_buff[2:10])[i] / 32768.0 * 16 * 9.8 for i in range(0, 3)]
             else:
-                print('0x51 校验失败')
+                print('0x51 Check failure')
 
         elif buff[1] == 0x52:
             if checkSum(data_buff[0:10], data_buff[10]):
                 angularVelocity = [hex_to_short(data_buff[2:10])[i] / 32768.0 * 2000 * math.pi / 180 for i in range(0, 3)]
 
             else:
-                print('0x52 校验失败')
+                print('0x52 Check failure')
 
         elif buff[1] == 0x53:
             if checkSum(data_buff[0:10], data_buff[10]):
@@ -77,14 +79,14 @@ def handleSerialData(raw_data):
                 version = temp[3]
                 angle_flag = True
             else:
-                print('0x53 校验失败')
+                print('0x53 Check failure')
         elif buff[1] == 0x54:
             if checkSum(data_buff[0:10], data_buff[10]): 
                 magnetometer = hex_to_short(data_buff[2:10])
                 if flag:
 	                calibuff.append(magnetometer[0:2])
             else:
-                print('0x54 校验失败')
+                print('0x54 Check failure')
 
 
         elif buff[1] == 0x57:
@@ -92,7 +94,7 @@ def handleSerialData(raw_data):
                 longitude_imu = (hex_to_data(data_buff[2:6])[0]  // 10000000.0 * 100 ) +  ((hex_to_data(data_buff[2:6])[0]  % 10000000) / 10000000.0)
                 latitude_imu = (hex_to_data(data_buff[6:10])[0]  // 10000000.0 * 100 ) +((hex_to_data(data_buff[6:10])[0] % 10000000) / 10000000.0)
             else:
-                print('0x57 校验失败')
+                print('0x57 Check failure')
                 
                 
                 
@@ -101,7 +103,7 @@ def handleSerialData(raw_data):
                 altitude_imu = hex_to_altitude(data_buff[2:4])[0]  / 10.0
                 
             else:
-                print('0x58 校验失败')
+                print('0x58 Check failure')
                 
 
         elif buff[1] == 0x5f:
@@ -114,7 +116,7 @@ def handleSerialData(raw_data):
 
                 print(readval)
             else:
-                print('0x5f 校验失败')
+                print('0x5f Check failure')
 
         else:
             #print("该数据处理类没有提供该 " + str(buff[1]) + " 的解析")
@@ -348,7 +350,7 @@ def AutoScanSensor():
 
     except Exception as e:
         print("exception:" + str(e))
-        print("imu 失去连接，接触不良，或断线")
+        print("imu loss of connection, poor contact, or broken wire")
         exit(0)
 
 
@@ -375,13 +377,13 @@ if __name__ == "__main__":
     try:
         wt_imu = serial.Serial(port=port, baudrate=baudrate, timeout=10)
         if wt_imu.isOpen():
-            rospy.loginfo("\033[32m串口打开成功...\033[0m")
+            rospy.loginfo("\033[32mSerial port enabled successfully...\033[0m")
         else:
             wt_imu.open()
-            rospy.loginfo("\033[32m打开串口成功...\033[0m")
+            rospy.loginfo("\033[32mSerial port enabled successfully...\033[0m")
     except Exception as e:
         print(e)
-        rospy.loginfo("\033[31m串口打开失败\033[0m")
+        rospy.loginfo("\033[31mFailed to open the serial port\033[0m")
         exit(0)
     else:
         #AutoScanSensor()
@@ -400,5 +402,5 @@ if __name__ == "__main__":
                         handleSerialData(buff_data[i])
             except Exception as e:
                 print("exception:" + str(e))
-                print("imu 失去连接，接触不良，或断线")
+                print("imu loss of connection, poor contact, or broken wire")
                 exit(0)

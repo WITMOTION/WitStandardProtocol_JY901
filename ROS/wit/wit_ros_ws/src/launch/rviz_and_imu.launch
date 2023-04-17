@@ -1,8 +1,17 @@
 <!--imu 和 rviz 同时打开-->
 
 <launch>
-
-    <!-- imu型号，默认 normal -->
+    <!--imu型号，默认 normal
+		设备类型如果是modbus协议的就填modbus
+		使用wit标准协议的填normal
+		如果是MODBUS高精度协议的填hmodbus
+		如果是CAN协议的就填can
+		如果是CAN高精度协议的填hcan
+		设备号/dev/ttyUSB0（脚本默认用的 /dev/ttyUSB0）为你电脑识别出来的数字
+		波特率根据实际使用设定，JY6x系列模块默认波特率为115200,CAN模块为230400，其他模块为9600
+		如果用户通过上位机修改了波特率，需要对应修改成修改后的波特率 
+	-->
+	
     <arg name="type" default="normal" doc="type [normal, modbus, hmodbus, can, hcan]"/>
 
     <!-- imu 对应 python 文件 -->

@@ -57,15 +57,15 @@ namespace Wit.Example_JY901
             // 
             // portComboBox
             // 
-            this.portComboBox.FormattingEnabled = true;
             resources.ApplyResources(this.portComboBox, "portComboBox");
+            this.portComboBox.FormattingEnabled = true;
             this.portComboBox.Name = "portComboBox";
             this.portComboBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.portComboBox_MouseDown);
             // 
             // baudComboBox
             // 
-            this.baudComboBox.FormattingEnabled = true;
             resources.ApplyResources(this.baudComboBox, "baudComboBox");
+            this.baudComboBox.FormattingEnabled = true;
             this.baudComboBox.Name = "baudComboBox";
             // 
             // label1
@@ -94,20 +94,20 @@ namespace Wit.Example_JY901
             // 
             // groupBox2
             // 
+            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.closeButton);
             this.groupBox2.Controls.Add(this.portComboBox);
             this.groupBox2.Controls.Add(this.openButton);
             this.groupBox2.Controls.Add(this.baudComboBox);
             this.groupBox2.Controls.Add(this.label2);
-            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.dataRichTextBox);
             resources.ApplyResources(this.groupBox1, "groupBox1");
+            this.groupBox1.Controls.Add(this.dataRichTextBox);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
@@ -118,13 +118,14 @@ namespace Wit.Example_JY901
             // 
             // leftPanel
             // 
+            resources.ApplyResources(this.leftPanel, "leftPanel");
             this.leftPanel.Controls.Add(this.groupBox3);
             this.leftPanel.Controls.Add(this.groupBox2);
-            resources.ApplyResources(this.leftPanel, "leftPanel");
             this.leftPanel.Name = "leftPanel";
             // 
             // groupBox3
             // 
+            resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Controls.Add(this.bandWidth256);
             this.groupBox3.Controls.Add(this.bandWidth20);
             this.groupBox3.Controls.Add(this.returnRate50);
@@ -133,7 +134,6 @@ namespace Wit.Example_JY901
             this.groupBox3.Controls.Add(this.endFieldCalibrationButton);
             this.groupBox3.Controls.Add(this.startFieldCalibrationButton);
             this.groupBox3.Controls.Add(this.appliedCalibrationButton);
-            resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
             // 

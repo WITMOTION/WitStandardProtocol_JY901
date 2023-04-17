@@ -17,9 +17,11 @@ from tf.transformations import quaternion_from_euler
 
 # 查找 ttyUSB* 设备
 def find_ttyUSB():
-    print('imu 默认串口为 /dev/ttyUSB0, 若识别多个串口设备, 请在 launch 文件中修改 imu 对应的串口')
+    #print('imu 默认串口为 /dev/ttyUSB0, 若识别多个串口设备, 请在 launch 文件中修改 imu 对应的串口')
+	print('The default serial port of the imu is /dev/ttyUSB0, if multiple serial port devices are identified, modify the serial port corresponding to the imu in the launch file')
     posts = [port.device for port in serial.tools.list_ports.comports() if 'USB' in port.device]
     print('当前电脑所连接的 {} 串口设备共 {} 个: {}'.format('USB', len(posts), posts))
+	print('There are {} {} serial port devices connected to the current PC: {}'.format(len(posts), 'USB', posts))
 
 
 
@@ -309,7 +311,7 @@ def AutoScanSensor():
 
     except Exception as e:
         print("exception:" + str(e))
-        print("imu 失去连接，接触不良，或断线")
+        print("imu loss of connection, poor contact, or broken wire")
         exit(0)
 
 
@@ -335,13 +337,13 @@ if __name__ == "__main__":
     try:
         wt_imu = serial.Serial(port=port, baudrate=baudrate, timeout=10)
         if wt_imu.isOpen():
-            rospy.loginfo("\033[32m串口打开成功...\033[0m")
+            rospy.loginfo("\033[32mSerial port enabled successfully...\033[0m")
         else:
             wt_imu.open()
-            rospy.loginfo("\033[32m打开串口成功...\033[0m")
+            rospy.loginfo("\033[32mSerial port enabled successfully...\033[0m")
     except Exception as e:
         print(e)
-        rospy.loginfo("\033[31m串口打开失败\033[0m")
+        rospy.loginfo("\033[31mFailed to open the serial port\033[0m")
         exit(0)
     else:
         #AutoScanSensor()
@@ -362,5 +364,5 @@ if __name__ == "__main__":
                         handleSerialData(buff_data[i])
             except Exception as e:
                 print("exception:" + str(e))
-                print("imu 失去连接，接触不良，或断线")
+                print("imu loss of connection, poor contact, or broken wire")
                 exit(0)
