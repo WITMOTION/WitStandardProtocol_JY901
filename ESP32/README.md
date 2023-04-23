@@ -4,7 +4,7 @@
 
 ## 说明文档
 
-https://wit-motion.yuque.com/wumwnr/ltst03/ucpd40hsgx3ymywv?singleDoc# 《标准精度WIT协议-姿态传感器》
+https://wit-motion.yuque.com/wumwnr/ltst03/loyuuwrk5f2bo5kg?singleDoc# 《ESP32_SDK快速上手》
 
 
 
