@@ -4,7 +4,7 @@
 
 ## 说明文档
 
-https://wit-motion.yuque.com/wumwnr/ltst03/ucpd40hsgx3ymywv?singleDoc# 《标准精度WIT协议-姿态传感器》
+https://wit-motion.yuque.com/wumwnr/ltst03/rqyk6g?singleDoc# 《Arduino_SDK快速上手》
 
 
 
@@ -14,6 +14,6 @@ The folder name is platform or language. Please find the corresponding folder ac
 
 ## Documentation
 
-https://support-73.gitbook.io/developer/~/changes/5u2oWJb0i3GwfwPMdTt4/wit-standard-protocol
+https://app.gitbook.com/s/7KeiQ2sbyWknusoV5r8U/wit-standard-protocol/sdk/arduino_sdk-quick-start
 
 

@@ -14,6 +14,6 @@ The folder name is platform or language. Please find the corresponding folder ac
 
 ## Documentation
 
-https://support-73.gitbook.io/developer/~/changes/5u2oWJb0i3GwfwPMdTt4/wit-standard-protocol
+https://app.gitbook.com/s/7KeiQ2sbyWknusoV5r8U/wit-standard-protocol/sdk/esp32_sdk-quick-start
 
 
