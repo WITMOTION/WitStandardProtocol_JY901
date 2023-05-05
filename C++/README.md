@@ -4,7 +4,7 @@ The folder name is platform or language. Please find the corresponding folder ac
 
 ## C++_SDK Quick Start
 
-https://app.gitbook.com/s/7KeiQ2sbyWknusoV5r8U/wit-standard-protocol/sdk/c++_sdk-quick-start
+https://support-73.gitbook.io/developer/~/changes/5u2oWJb0i3GwfwPMdTt4/wit-standard-protocol/sdk/c++_sdk-quick-start
 
 # 使用说明
 
