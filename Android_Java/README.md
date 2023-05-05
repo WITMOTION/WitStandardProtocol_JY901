@@ -1,7 +1,7 @@
 
 ## Get started quickly
 
-https://app.gitbook.com/s/7KeiQ2sbyWknusoV5r8U/~/changes/73/wit-standard-protocol/sdk/android_sdk-quick-start
+https://support-73.gitbook.io/developer/~/changes/Xh6p2DU2f6KRoGfJPBEh/wit-standard-protocol/sdk/android_sdk-quick-start
 
 ## 快速上手
 
