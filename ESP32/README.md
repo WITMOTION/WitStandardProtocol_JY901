@@ -2,7 +2,7 @@
 
 The folder name is platform or language. Please find the corresponding folder according to your platform and programming language before using it
 
-## Documentation
+## ESP32_SDK Quick Start 
 
 https://support-73.gitbook.io/developer/~/changes/Xh6p2DU2f6KRoGfJPBEh/wit-standard-protocol/sdk/esp32_sdk-quick-start
 
