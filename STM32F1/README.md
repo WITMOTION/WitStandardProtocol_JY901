@@ -4,7 +4,7 @@ The folder name is platform or language. Please find the corresponding folder ac
 
 ## STM32F1 IAP upgrade sample tutorial
 
-https://support-73.gitbook.io/developer/~/changes/Xh6p2DU2f6KRoGfJPBEh/wit-standard-protocol/sdk/stm32f1-iap-upgrade-sample-tutorial
+https://support-73.gitbook.io/witmotion-sdk/wit-standard-protocol/sdk/stm32f1-iap-upgrade-sample-tutorial
 
 # 使用说明
 
