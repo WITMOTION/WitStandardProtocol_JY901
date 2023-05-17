@@ -4,7 +4,7 @@ The folder name is platform or language. Please find the corresponding folder ac
 
 ## Matlab_SDK Development Kit Document
 
-https://support-73.gitbook.io/developer/~/changes/Xh6p2DU2f6KRoGfJPBEh/wit-standard-protocol/sdk/matlab_sdk-development-kit
+https://support-73.gitbook.io/witmotion-sdk/wit-standard-protocol/sdk/matlab_sdk-development-kit
 
 # 使用说明
 
