@@ -1,6 +1,6 @@
 ## ROS Python Introduction
 
-https://support-73.gitbook.io/developer/~/changes/Xh6p2DU2f6KRoGfJPBEh/wit-standard-protocol/sdk/ros-python-introduction
+https://support-73.gitbook.io/witmotion-sdk/wit-standard-protocol/sdk/ros-python-introduction
 
 ## 快速上手
 
