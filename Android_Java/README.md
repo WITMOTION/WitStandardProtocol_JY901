@@ -1,6 +1,6 @@
 ## Android_SDK Quick Start
 
-https://support-73.gitbook.io/developer/~/changes/Xh6p2DU2f6KRoGfJPBEh/wit-standard-protocol/sdk/android_sdk-quick-start
+https://support-73.gitbook.io/witmotion-sdk/wit-standard-protocol/sdk/android_sdk-quick-start
 
 ## Android_SDK快速上手
 
