@@ -4,7 +4,7 @@ The folder name is platform or language. Please find the corresponding folder ac
 
 ## Arduino_SDK Quick Start
 
-https://support-73.gitbook.io/developer/~/changes/5u2oWJb0i3GwfwPMdTt4/wit-standard-protocol/sdk/arduino_sdk-quick-start
+https://support-73.gitbook.io/witmotion-sdk/wit-standard-protocol/sdk/arduino_sdk-quick-start
 
 # 使用说明
 
