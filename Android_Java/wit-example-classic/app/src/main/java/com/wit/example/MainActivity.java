@@ -8,17 +8,28 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.wit.witsdk.modular.sensor.device.exceptions.OpenDeviceException;
-import com.wit.witsdk.modular.sensor.modular.connector.modular.bluetooth.BluetoothBLE;
-import com.wit.witsdk.modular.sensor.modular.connector.modular.bluetooth.BluetoothSPP;
-import com.wit.witsdk.modular.sensor.modular.connector.modular.bluetooth.WitBluetoothManager;
-import com.wit.witsdk.modular.sensor.modular.connector.modular.bluetooth.exceptions.BluetoothBLEException;
-import com.wit.witsdk.modular.sensor.modular.connector.modular.bluetooth.interfaces.IBluetoothFoundObserver;
-import com.wit.witsdk.modular.sensor.modular.processor.constant.WitSensorKey;
-import com.wit.witsdk.modular.witsensorapi.modular.spp.Bwt901cl;
-import com.wit.witsdk.modular.witsensorapi.modular.spp.interfaces.IBwt901clRecordObserver;
+//import com.wit.witsdk.modular.sensor.device.exceptions.OpenDeviceException;
+//import com.wit.witsdk.modular.sensor.modular.connector.modular.bluetooth.BluetoothBLE;
+//import com.wit.witsdk.modular.sensor.modular.connector.modular.bluetooth.BluetoothSPP;
+//import com.wit.witsdk.modular.sensor.modular.connector.modular.bluetooth.WitBluetoothManager;
+//import com.wit.witsdk.modular.sensor.modular.connector.modular.bluetooth.exceptions.BluetoothBLEException;
+//import com.wit.witsdk.modular.sensor.modular.connector.modular.bluetooth.interfaces.IBluetoothFoundObserver;
+//import com.wit.witsdk.modular.sensor.modular.processor.constant.WitSensorKey;
+//import com.wit.witsdk.modular.witsensorapi.modular.spp.Bwt901cl;
+//import com.wit.witsdk.modular.witsensorapi.modular.spp.interfaces.IBwt901clRecordObserver;
+
+import com.wit.witsdk.sensor.modular.connector.modular.bluetooth.BluetoothBLE;
+import com.wit.witsdk.sensor.modular.connector.modular.bluetooth.BluetoothSPP;
+import com.wit.witsdk.sensor.modular.connector.modular.bluetooth.WitBluetoothManager;
+import com.wit.witsdk.sensor.modular.connector.modular.bluetooth.exceptions.BluetoothBLEException;
+import com.wit.witsdk.sensor.modular.connector.modular.bluetooth.interfaces.IBluetoothFoundObserver;
+import com.wit.witsdk.sensor.modular.device.exceptions.OpenDeviceException;
+import com.wit.witsdk.sensor.modular.processor.constant.WitSensorKey;
+import com.wit.witsdk.witsensorapi.modular.spp.Bwt901cl;
+import com.wit.witsdk.witsensorapi.modular.spp.interfaces.IBwt901clRecordObserver;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -174,11 +185,16 @@ public class MainActivity extends AppCompatActivity implements IBluetoothFoundOb
             // 注册监听蓝牙
             // Monitor communication signals
             bluetoothManager.registerObserver(this);
+            // 指定要搜索的蓝牙名称
+            // Specify the Bluetooth name to search for
+            WitBluetoothManager.DeviceNameFilter = Arrays.asList("HC-06");
             // 开始搜索
             // start search
             bluetoothManager.startDiscovery();
         } catch (BluetoothBLEException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -216,8 +232,6 @@ public class MainActivity extends AppCompatActivity implements IBluetoothFoundOb
      */
     @Override
     public void onFoundBle(BluetoothBLE bluetoothBLE) {
-        // 不做任何处理，这个示例程序只演示如何连接蓝牙2.0设备
-        // Without doing any processing, this sample program only demonstrates how to connect a Bluetooth 2.0 device
     }
 
     /**
@@ -229,9 +243,20 @@ public class MainActivity extends AppCompatActivity implements IBluetoothFoundOb
      */
     @Override
     public void onFoundSPP(BluetoothSPP bluetoothSPP) {
+    }
+
+    /**
+     * 找到双模蓝牙时
+     * This method will be called back when data needs to be recorded
+     *
+     * @author huangyajun
+     * @date 2022/6/29 8:46
+     */
+    @Override
+    public void onFoundDual(BluetoothBLE bluetoothBLE) {
         // 创建蓝牙2.0传感器连接对象
         // Create a Bluetooth 2.0 sensor connection object
-        Bwt901cl bwt901cl = new Bwt901cl(bluetoothSPP);
+        Bwt901cl bwt901cl = new Bwt901cl(bluetoothBLE);
         // 避免重复连接
         // Avoid duplicate connections
         for(int i = 0; i < bwt901clList.size(); i++){

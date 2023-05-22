@@ -8,17 +8,18 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.wit.witsdk.modular.sensor.device.exceptions.OpenDeviceException;
-import com.wit.witsdk.modular.sensor.example.ble5.Bwt901ble;
-import com.wit.witsdk.modular.sensor.example.ble5.interfaces.IBwt901bleRecordObserver;
-import com.wit.witsdk.modular.sensor.modular.connector.modular.bluetooth.BluetoothBLE;
-import com.wit.witsdk.modular.sensor.modular.connector.modular.bluetooth.BluetoothSPP;
-import com.wit.witsdk.modular.sensor.modular.connector.modular.bluetooth.WitBluetoothManager;
-import com.wit.witsdk.modular.sensor.modular.connector.modular.bluetooth.exceptions.BluetoothBLEException;
-import com.wit.witsdk.modular.sensor.modular.connector.modular.bluetooth.interfaces.IBluetoothFoundObserver;
-import com.wit.witsdk.modular.sensor.modular.processor.constant.WitSensorKey;
+import com.wit.witsdk.sensor.modular.connector.modular.bluetooth.BluetoothBLE;
+import com.wit.witsdk.sensor.modular.connector.modular.bluetooth.BluetoothSPP;
+import com.wit.witsdk.sensor.modular.connector.modular.bluetooth.WitBluetoothManager;
+import com.wit.witsdk.sensor.modular.connector.modular.bluetooth.exceptions.BluetoothBLEException;
+import com.wit.witsdk.sensor.modular.connector.modular.bluetooth.interfaces.IBluetoothFoundObserver;
+import com.wit.witsdk.sensor.modular.device.exceptions.OpenDeviceException;
+import com.wit.witsdk.sensor.modular.processor.constant.WitSensorKey;
+import com.wit.witsdk.witsensorapi.modular.ble5.Bwt901ble;
+import com.wit.witsdk.witsensorapi.modular.ble5.interfaces.IBwt901bleRecordObserver;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -173,6 +174,9 @@ public class MainActivity extends AppCompatActivity implements IBluetoothFoundOb
             // 注册监听蓝牙
             // Monitor communication signals
             bluetoothManager.registerObserver(this);
+            // 指定要搜索的蓝牙名称
+            // Specify the Bluetooth name to search for
+            WitBluetoothManager.DeviceNameFilter = Arrays.asList("WT");
             // 开始搜索
             // start search
             bluetoothManager.startDiscovery();
@@ -257,6 +261,18 @@ public class MainActivity extends AppCompatActivity implements IBluetoothFoundOb
     public void onFoundSPP(BluetoothSPP bluetoothSPP) {
         // 不做任何处理，这个示例程序只演示如何连接蓝牙5.0设备
         // Without doing any processing, this sample program only demonstrates how to connect a Bluetooth 5.0 device
+    }
+
+    /**
+     * 找到双模蓝牙时
+     * This method will be called back when data needs to be recorded
+     *
+     * @author huangyajun
+     * @date 2023/5/18 18:15
+     */
+    @Override
+    public void onFoundDual(BluetoothBLE bluetoothBLE) {
+
     }
 
     /**
