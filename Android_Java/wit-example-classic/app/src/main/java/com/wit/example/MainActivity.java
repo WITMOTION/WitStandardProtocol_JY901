@@ -8,25 +8,17 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-//import com.wit.witsdk.modular.sensor.device.exceptions.OpenDeviceException;
-//import com.wit.witsdk.modular.sensor.modular.connector.modular.bluetooth.BluetoothBLE;
-//import com.wit.witsdk.modular.sensor.modular.connector.modular.bluetooth.BluetoothSPP;
-//import com.wit.witsdk.modular.sensor.modular.connector.modular.bluetooth.WitBluetoothManager;
-//import com.wit.witsdk.modular.sensor.modular.connector.modular.bluetooth.exceptions.BluetoothBLEException;
-//import com.wit.witsdk.modular.sensor.modular.connector.modular.bluetooth.interfaces.IBluetoothFoundObserver;
-//import com.wit.witsdk.modular.sensor.modular.processor.constant.WitSensorKey;
-//import com.wit.witsdk.modular.witsensorapi.modular.spp.Bwt901cl;
-//import com.wit.witsdk.modular.witsensorapi.modular.spp.interfaces.IBwt901clRecordObserver;
-
+import com.wit.example.spp.Bwt901cl;
+import com.wit.example.spp.data.WitSensorKey;
+import com.wit.example.spp.interfaces.IBwt901clRecordObserver;
+import com.wit.witsdk.sensor.dkey.ShortKey;
+import com.wit.witsdk.sensor.dkey.StringKey;
 import com.wit.witsdk.sensor.modular.connector.modular.bluetooth.BluetoothBLE;
 import com.wit.witsdk.sensor.modular.connector.modular.bluetooth.BluetoothSPP;
 import com.wit.witsdk.sensor.modular.connector.modular.bluetooth.WitBluetoothManager;
 import com.wit.witsdk.sensor.modular.connector.modular.bluetooth.exceptions.BluetoothBLEException;
 import com.wit.witsdk.sensor.modular.connector.modular.bluetooth.interfaces.IBluetoothFoundObserver;
 import com.wit.witsdk.sensor.modular.device.exceptions.OpenDeviceException;
-import com.wit.witsdk.sensor.modular.processor.constant.WitSensorKey;
-import com.wit.witsdk.witsensorapi.modular.spp.Bwt901cl;
-import com.wit.witsdk.witsensorapi.modular.spp.interfaces.IBwt901clRecordObserver;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,9 +34,9 @@ import java.util.Objects;
  * This program is an example base on Bluetooth 2.0sdk developed by WitMotion
  * 本程序适用于维特智能以下产品
  * This program is applicable to the following products of WitMotion
- *  BWT901CL
- *  BWT61CL
- *
+ * BWT901CL
+ * BWT61CL
+ * <p>
  * 本程序只有一个页面，没有其它页面
  * This program has only one page and no other pages
  *
@@ -88,8 +80,8 @@ public class MainActivity extends AppCompatActivity implements IBluetoothFoundOb
             // 初始化蓝牙管理器，这里会申请蓝牙权限
             // Initialize the Bluetooth manager, here will apply for Bluetooth permissions
             WitBluetoothManager.initInstance(this);
-        }catch (Exception e){
-            Log.e("",e.getMessage());
+        } catch (Exception e) {
+            Log.e("", e.getMessage());
             e.printStackTrace();
         }
 
@@ -259,8 +251,8 @@ public class MainActivity extends AppCompatActivity implements IBluetoothFoundOb
         Bwt901cl bwt901cl = new Bwt901cl(bluetoothBLE);
         // 避免重复连接
         // Avoid duplicate connections
-        for(int i = 0; i < bwt901clList.size(); i++){
-            if(Objects.equals(bwt901clList.get(i).getDeviceName(), bwt901cl.getDeviceName())){
+        for (int i = 0; i < bwt901clList.size(); i++) {
+            if (Objects.equals(bwt901clList.get(i).getDeviceName(), bwt901cl.getDeviceName())) {
                 return;
             }
         }
@@ -338,21 +330,34 @@ public class MainActivity extends AppCompatActivity implements IBluetoothFoundOb
     private String getDeviceData(Bwt901cl bwt901cl) {
         StringBuilder builder = new StringBuilder();
         builder.append(bwt901cl.getDeviceName()).append("\n");
-        builder.append(getString(R.string.accX)).append(":").append(bwt901cl.getDeviceData(WitSensorKey.AccX)).append("g \t");
-        builder.append(getString(R.string.accY)).append(":").append(bwt901cl.getDeviceData(WitSensorKey.AccY)).append("g \t");
-        builder.append(getString(R.string.accZ)).append(":").append(bwt901cl.getDeviceData(WitSensorKey.AccZ)).append("g \n");
-        builder.append(getString(R.string.asX)).append(":").append(bwt901cl.getDeviceData(WitSensorKey.AsX)).append("°/s \t");
-        builder.append(getString(R.string.asY)).append(":").append(bwt901cl.getDeviceData(WitSensorKey.AsY)).append("°/s \t");
-        builder.append(getString(R.string.asZ)).append(":").append(bwt901cl.getDeviceData(WitSensorKey.AsZ)).append("°/s \n");
-        builder.append(getString(R.string.angleX)).append(":").append(bwt901cl.getDeviceData(WitSensorKey.AngleX)).append("° \t");
-        builder.append(getString(R.string.angleY)).append(":").append(bwt901cl.getDeviceData(WitSensorKey.AngleY)).append("° \t");
-        builder.append(getString(R.string.angleZ)).append(":").append(bwt901cl.getDeviceData(WitSensorKey.AngleZ)).append("° \n");
-        builder.append(getString(R.string.hX)).append(":").append(bwt901cl.getDeviceData(WitSensorKey.HX)).append("\t");
-        builder.append(getString(R.string.hY)).append(":").append(bwt901cl.getDeviceData(WitSensorKey.HY)).append("\t");
-        builder.append(getString(R.string.hZ)).append(":").append(bwt901cl.getDeviceData(WitSensorKey.HZ)).append("\n");
-        builder.append(getString(R.string.t)).append(":").append(bwt901cl.getDeviceData(WitSensorKey.T)).append("\n");
-        builder.append(getString(R.string.electricQuantityPercentage)).append(":").append(bwt901cl.getDeviceData(WitSensorKey.ElectricQuantityPercentage)).append("\n");
-        builder.append(getString(R.string.versionNumber)).append(":").append(bwt901cl.getDeviceData(WitSensorKey.VersionNumber)).append("\n");
+        builder.append(getString(R.string.accX)).append(":").append(bwt901cl.getDeviceData(WitSensorKey.AccX))
+                .append(WitSensorKey.AccX.getUnit()).append("\t");
+        builder.append(getString(R.string.accY)).append(":").append(bwt901cl.getDeviceData(WitSensorKey.AccY))
+                .append(WitSensorKey.AccY.getUnit()).append("\t");
+        builder.append(getString(R.string.accZ)).append(":").append(bwt901cl.getDeviceData(WitSensorKey.AccZ))
+                .append(WitSensorKey.AccZ.getUnit()).append("\n");
+        builder.append(getString(R.string.asX)).append(":").append(bwt901cl.getDeviceData(WitSensorKey.AsX))
+                .append(WitSensorKey.AsX.getUnit()).append("\t");
+        builder.append(getString(R.string.asY)).append(":").append(bwt901cl.getDeviceData(WitSensorKey.AsY))
+                .append(WitSensorKey.AsY.getUnit()).append("\t");
+        builder.append(getString(R.string.asZ)).append(":").append(bwt901cl.getDeviceData(WitSensorKey.AsZ))
+                .append(WitSensorKey.AsZ.getUnit()).append("\n");
+        builder.append(getString(R.string.angleX)).append(":").append(bwt901cl.getDeviceData(WitSensorKey.AngleX))
+                .append(WitSensorKey.AngleX.getUnit()).append("\t");
+        builder.append(getString(R.string.angleY)).append(":").append(bwt901cl.getDeviceData(WitSensorKey.AngleY))
+                .append(WitSensorKey.AngleY.getUnit()).append("\t");
+        builder.append(getString(R.string.angleZ)).append(":").append(bwt901cl.getDeviceData(WitSensorKey.AngleZ))
+                .append(WitSensorKey.AngleZ.getUnit()).append("\n");
+        builder.append(getString(R.string.hX)).append(":").append(bwt901cl.getDeviceData(WitSensorKey.HX))
+                .append(WitSensorKey.HX.getUnit()).append("\t");
+        builder.append(getString(R.string.hY)).append(":").append(bwt901cl.getDeviceData(WitSensorKey.HY))
+                .append(WitSensorKey.HY.getUnit()).append("\t");
+        builder.append(getString(R.string.hZ)).append(":").append(bwt901cl.getDeviceData(WitSensorKey.HZ))
+                .append(WitSensorKey.HZ.getUnit()).append("\n");
+        builder.append(getString(R.string.t)).append(":").append(bwt901cl.getDeviceData(WitSensorKey.T))
+                .append(WitSensorKey.T.getUnit()).append("\n");
+        builder.append(getString(R.string.versionNumber)).append(":").append(bwt901cl.getDeviceData(WitSensorKey.VersionNumber))
+                .append(WitSensorKey.VersionNumber.getUnit()).append("\n");
         return builder.toString();
     }
 
@@ -417,7 +422,6 @@ public class MainActivity extends AppCompatActivity implements IBluetoothFoundOb
     }
 
 
-
     /**
      * 读取03寄存器的数据
      * Read 03 register data
@@ -436,7 +440,7 @@ public class MainActivity extends AppCompatActivity implements IBluetoothFoundOb
             bwt901cl.sendProtocolData(new byte[]{(byte) 0xff, (byte) 0xAA, (byte) 0x27, (byte) 0x03, (byte) 0x00}, waitTime);
             // 获得寄存器03的值
             // get the value of register 03
-            String reg03Value = bwt901cl.getDeviceData("03");
+            Short reg03Value = bwt901cl.getDeviceData(new ShortKey("03"));
             // 如果读上来了 reg03Value 就是寄存器的值，如果没有读上来可以将 waitTime 放大,或者多读几次
             // If it is read up, reg03Value is the value of the register. If it is not read up, you can enlarge waitTime, or read it several times.v
             Toast.makeText(this, bwt901cl.getDeviceName() + " reg03Value: " + reg03Value, Toast.LENGTH_LONG).show();

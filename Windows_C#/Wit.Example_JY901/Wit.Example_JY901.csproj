@@ -32,15 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Antlr3.Runtime">
-      <HintPath>Dll\Antlr3.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="ExpressionEvaluator">
-      <HintPath>Dll\ExpressionEvaluator.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>Dll\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -52,15 +43,11 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="wclCommon">
-      <HintPath>Dll\wclCommon.dll</HintPath>
+    <Reference Include="Windows">
+      <HintPath>_DII\Windows.winmd</HintPath>
     </Reference>
-    <Reference Include="wclCommunication">
-      <HintPath>Dll\wclCommunication.dll</HintPath>
-    </Reference>
-    <Reference Include="Wit.SDK, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Dll\Wit.SDK.dll</HintPath>
+    <Reference Include="Wit.OpenSDK">
+      <HintPath>_DII\Wit.OpenSDK.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -70,6 +57,10 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Jy901\Components\JY901Processor.cs" />
+    <Compile Include="Jy901\Components\WitResolver.cs" />
+    <Compile Include="Jy901\Data\WitSensorKey.cs" />
+    <Compile Include="Jy901\JY901.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
@@ -99,9 +90,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Dll\Wit.SDK.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
