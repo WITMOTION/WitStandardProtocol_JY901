@@ -6,14 +6,6 @@ int serial_open(unsigned char* dev, unsigned int baud)
     int fd;
     fd = open(dev, O_RDWR|O_NOCTTY); 
     if (fd < 0) return fd;
-    if(isatty(STDIN_FILENO)==0) 
-      {
-   	  printf("standard input is not a terminal device\n"); 
-      }   
-    else 
-      {
-	  printf("isatty success!\n"); 
-      }
 
     struct termios newtio,oldtio; 
     if (tcgetattr( fd,&oldtio) != 0) 
