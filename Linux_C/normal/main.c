@@ -15,16 +15,18 @@ static int fd, s_iCurBaud = 9600;
 static volatile char s_cDataUpdate = 0;
 
 
-const int c_uiBaud[] = {2400 , 4800 , 9600 , 19200 , 38400 , 57600 , 115200 , 230400 , 460800 , 921600};
+const int c_uiBaud[] = {921600, 460800, 230400, 115200, 9600, 4800, 2400};
 
 
-static void AutoScanSensor(char* dev);
+static int AutoScanSensor(char* dev);
 static void SensorDataUpdata(uint32_t uiReg, uint32_t uiRegNum);
 static void Delayms(uint16_t ucMs);
+static void SensorUartSend(uint8_t *ucData, uint32_t uiSize);
+void print_binary(unsigned int number);
 
 
 int main(int argc,char* argv[]){
-	
+
 	if(argc < 2)
 	{
 		printf("please input dev name\n");
@@ -32,7 +34,7 @@ int main(int argc,char* argv[]){
 	}
 
 
-    if((fd = serial_open(argv[1] , 9600)<0))
+    if((fd = serial_open(argv[1] , 9600))<0)
 	 {
 	     printf("open %s fail\n", argv[1]);
 	     return 0;
@@ -41,27 +43,33 @@ int main(int argc,char* argv[]){
 
 
 	float fAcc[3], fGyro[3], fAngle[3];
-	int i , ret;
+	int i=5 , ret=10;
 	char cBuff[1];
-	
-	WitInit(WIT_PROTOCOL_NORMAL, 0x50);
-	WitRegisterCallBack(SensorDataUpdata);
-	
+
+	int32_t initResult = WitInit(WIT_PROTOCOL_NORMAL, 0x50);
+	int32_t serialRegisterResult = WitSerialWriteRegister(SensorUartSend);
+	int32_t callBackResult = WitRegisterCallBack(SensorDataUpdata);
+
 	printf("\r\n********************** wit-motion Normal example  ************************\r\n");
-	AutoScanSensor(argv[1]);
-	
+	if(AutoScanSensor(argv[1]) < 0)
+	{
+        printf("Exiting program s_cDataUpdate always 0.\n");
+		return -1;
+	}
+
 	while(1)
 	{
-	     
+
 	    while(serial_read_data(fd, cBuff, 1))
 		  {
 		      WitSerialDataIn(cBuff[0]);
 		  }
 		  printf("\n");
           Delayms(500);
-        
+
           if(s_cDataUpdate)
 		   {
+				// print_binary(s_cDataUpdate);
 			   for(i = 0; i < 3; i++)
 			    {
 				    fAcc[i] = sReg[AX+i] / 32768.0f * 16.0f;
@@ -91,7 +99,7 @@ int main(int argc,char* argv[]){
 			    }
 		    }
      }
-    
+
     serial_close(fd);
 	return 0;
 }
@@ -99,6 +107,7 @@ int main(int argc,char* argv[]){
 
 static void SensorDataUpdata(uint32_t uiReg, uint32_t uiRegNum)
 {
+	// printf("SensorDataUpdata() called with uiReg = %d and uiRegNum = %d\n", uiReg, uiRegNum);
     int i;
     for(i = 0; i < uiRegNum; i++)
     {
@@ -134,40 +143,76 @@ static void SensorDataUpdata(uint32_t uiReg, uint32_t uiRegNum)
 
 
 static void Delayms(uint16_t ucMs)
-{ 
+{
      usleep(ucMs*1000);
 }
- 
-	
-static void AutoScanSensor(char* dev)
+
+
+static int AutoScanSensor(char* dev)
 {
 	int i, iRetry;
-	char cBuff[1];
-	
-	for(i = 1; i < 10; i++)
+	unsigned char cBuff[1];
+	int32_t witReadRegResult; // Added variable to store the return value of WitReadReg()
+	int read_data_result; // Added variable to store the return value of serial_read_data()
+
+	for(i = 0; i < 7; i++)
 	{
 		serial_close(fd);
 		s_iCurBaud = c_uiBaud[i];
 		fd = serial_open(dev , c_uiBaud[i]);
-		
+		printf("AutoScanSensor() - serial_open() returned: %d for %d bauds\n", fd, c_uiBaud[i]);
+
 		iRetry = 2;
 		do
 		{
 			s_cDataUpdate = 0;
-			WitReadReg(AX, 3);
+			witReadRegResult = WitReadReg(AX, 3);
+			//printf("WitReadReg() returned: %d\n", witReadRegResult);
 			Delayms(200);
-			while(serial_read_data(fd, cBuff, 1))
+			while((read_data_result = serial_read_data(fd, cBuff, 1)))
 			{
+				//printf("serial_read_data() returned: %d\n", read_data_result);
 				WitSerialDataIn(cBuff[0]);
 			}
 			if(s_cDataUpdate != 0)
 			{
-				printf("%d baud find sensor\r\n\r\n", c_uiBaud[i]);
-				return ;
+				printf("AutoScanSensor() - %d baud find sensor\r\n\r\n", c_uiBaud[i]);
+				return 0;
 			}
 			iRetry--;
-		}while(iRetry);		
+		}while(iRetry);
 	}
 	printf("can not find sensor\r\n");
 	printf("please check your connection\r\n");
+
+	return -1;
+}
+
+static void SensorUartSend(uint8_t *ucData, uint32_t uiSize)
+{
+	printf("SensorUartSend() - Writing %d bytes to serial port\n", uiSize);
+	int write_result = serial_write_data(fd, (const char*)ucData, uiSize);
+	if (write_result == -1) {
+		printf("SensorUartSend() - serial_write_data() encountered an error\n");
+	} else if (write_result < uiSize) {
+		printf("SensorUartSend() - serial_write_data() did not write all the data. Only %d bytes\n", uiSize-write_result);
+	} else {
+		printf("SensorUartSend() - serial_write_data() successfully wrote whole data ");
+		for (int i = 0; i < uiSize; i++) {
+			printf("%02X ", ucData[i]);
+		}
+		printf(" of length %d\n", write_result);
+	}
+}
+
+void print_binary(unsigned int number) {
+    char binary[33];
+    binary[32] = '\0'; // Null-terminate the string
+
+    for (int i = 31; i >= 0; --i) {
+        binary[i] = (number & 1) ? '1' : '0';
+        number >>= 1;
+    }
+
+    printf("s_cDataUpdate: %s\n", binary);
 }
