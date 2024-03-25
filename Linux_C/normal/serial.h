@@ -22,7 +22,7 @@ int serial_open(unsigned char* dev, unsigned int baud);
 
 int serial_read_data(int fd, unsigned char *val, int len);
 
-int serial_write_data(int fd, unsigned char *val, int len);
+int serial_write_data(int fd, const char *val, int len);
 
 
 #endif
