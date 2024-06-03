@@ -4,8 +4,7 @@ The folder name is platform or language. Please find the corresponding folder ac
 
 ## Documentation
 
-https://support-73.gitbook.io/witmotion-sdk/wit-standard-protocol/
-
+https:/wit-motion.gitbook.io/witmotion-sdk/wit-standard-protocol/
 
 # 使用说明
 
