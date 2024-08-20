@@ -32,13 +32,17 @@ GND          -----           GND    ----       			 GND
 #define ANGLE_UPDATE	0x04
 #define MAG_UPDATE		0x08
 #define READ_UPDATE		0x80
-static volatile char s_cDataUpdate = 0, s_cCmd = 0xff;
+static volatile char s_cDataUpdate1 = 0,s_cDataUpdate2 = 0,s_cDataUpdate3 = 0,s_cDataUpdate4 = 0, s_cCmd = 0xff;
 const uint32_t c_uiBaud[10] = {0, 4800, 9600, 19200, 38400, 57600, 115200, 230400, 460800, 921600};
 static void CmdProcess(void);
 static void AutoScanSensor(void);
 static void SensorUartSend(uint8_t *p_data, uint32_t uiSize);
 static void SensorDataUpdata(uint32_t uiReg, uint32_t uiRegNum);
 static void Delayms(uint16_t ucMs);
+
+extern uint8_t ucRegIndex;
+extern uint16_t usRegDataBuff[4];
+extern uint32_t uiRegDataLen;
 
 int main(void)
 {
@@ -47,8 +51,8 @@ int main(void)
 	
 
 	SysTick_Init();
-	Usart1Init(115200);
-	Usart2Init(9600);
+	Usart1Init(921600);
+	Usart2Init(921600);
 	WitInit(WIT_PROTOCOL_NORMAL, 0x50);
 	WitSerialWriteRegister(SensorUartSend);
 	WitRegisterCallBack(SensorDataUpdata);
@@ -58,7 +62,8 @@ int main(void)
 	while (1)
 	{
 		CmdProcess();
-		if(s_cDataUpdate)
+		CopeWitData(ucRegIndex,usRegDataBuff,uiRegDataLen);
+		if(s_cDataUpdate1 || s_cDataUpdate2 ||s_cDataUpdate3 ||s_cDataUpdate4 )
 		{
 			for(i = 0; i < 3; i++)
 			{
@@ -66,25 +71,25 @@ int main(void)
 				fGyro[i] = sReg[GX+i] / 32768.0f * 2000.0f;
 				fAngle[i] = sReg[Roll+i] / 32768.0f * 180.0f;
 			}
-			if(s_cDataUpdate & ACC_UPDATE)
+			if(s_cDataUpdate1 | ACC_UPDATE)
 			{
 				printf("acc:%.3f %.3f %.3f\r\n", fAcc[0], fAcc[1], fAcc[2]);
-				s_cDataUpdate &= ~ACC_UPDATE;
+				s_cDataUpdate1 &= ~ACC_UPDATE;
 			}
-			if(s_cDataUpdate & GYRO_UPDATE)
+			if(s_cDataUpdate2 | GYRO_UPDATE)
 			{
 				printf("gyro:%.3f %.3f %.3f\r\n", fGyro[0], fGyro[1], fGyro[2]);
-				s_cDataUpdate &= ~GYRO_UPDATE;
+				s_cDataUpdate2 &= ~GYRO_UPDATE;
 			}
-			if(s_cDataUpdate & ANGLE_UPDATE)
+			if(s_cDataUpdate3 | ANGLE_UPDATE)
 			{
 				printf("angle:%.3f %.3f %.3f\r\n", fAngle[0], fAngle[1], fAngle[2]);
-				s_cDataUpdate &= ~ANGLE_UPDATE;
+				s_cDataUpdate3 &= ~ANGLE_UPDATE;
 			}
-			if(s_cDataUpdate & MAG_UPDATE)
+			if(s_cDataUpdate4 | MAG_UPDATE)
 			{
 				printf("mag:%d %d %d\r\n", sReg[HX], sReg[HY], sReg[HZ]);
-				s_cDataUpdate &= ~MAG_UPDATE;
+				s_cDataUpdate4 &= ~MAG_UPDATE;
 			}
 		}
 	}
@@ -212,26 +217,26 @@ static void SensorDataUpdata(uint32_t uiReg, uint32_t uiRegNum)
 //            case AX:
 //            case AY:
             case AZ:
-				s_cDataUpdate |= ACC_UPDATE;
+				s_cDataUpdate1 |= ACC_UPDATE;
             break;
 //            case GX:
 //            case GY:
             case GZ:
-				s_cDataUpdate |= GYRO_UPDATE;
+				s_cDataUpdate2 |= GYRO_UPDATE;
             break;
 //            case HX:
 //            case HY:
             case HZ:
-				s_cDataUpdate |= MAG_UPDATE;
+				s_cDataUpdate4 |= MAG_UPDATE;
             break;
 //            case Roll:
 //            case Pitch:
             case Yaw:
-				s_cDataUpdate |= ANGLE_UPDATE;
+				s_cDataUpdate3 |= ANGLE_UPDATE;
             break;
-            default:
-				s_cDataUpdate |= READ_UPDATE;
-			break;
+//            default:
+//				s_cDataUpdate1 |= READ_UPDATE;
+//			break;
         }
 		uiReg++;
     }
@@ -247,10 +252,10 @@ static void AutoScanSensor(void)
 		iRetry = 2;
 		do
 		{
-			s_cDataUpdate = 0;
+			s_cDataUpdate1 = 0;
 			WitReadReg(AX, 3);
 			delay_ms(100);
-			if(s_cDataUpdate != 0)
+			if(s_cDataUpdate1 != 0)
 			{
 				printf("%d baud find sensor\r\n\r\n", c_uiBaud[i]);
 				ShowHelp();

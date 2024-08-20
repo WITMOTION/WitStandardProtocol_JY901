@@ -12,6 +12,9 @@ static uint8_t s_ucWitDataBuff[WIT_DATA_BUFF_SIZE];
 static uint32_t s_uiWitDataCnt = 0, s_uiProtoclo = 0, s_uiReadRegIndex = 0;
 int16_t sReg[REGSIZE];
 
+uint8_t ucRegIndex = 0;
+uint16_t usRegDataBuff[4] = {0};
+uint32_t uiRegDataLen = 0;
 
 #define FuncW 0x06
 #define FuncR 0x03
@@ -87,7 +90,7 @@ int32_t WitSerialWriteRegister(SerialWrite Write_func)
     p_WitSerialWriteFunc = Write_func;
     return WIT_HAL_OK;
 }
-static void CopeWitData(uint8_t ucIndex, uint16_t *p_data, uint32_t uiLen)
+void CopeWitData(uint8_t ucIndex, uint16_t *p_data, uint32_t uiLen)
 {
     uint32_t uiReg1 = 0, uiReg2 = 0, uiReg1Len = 0, uiReg2Len = 0;
     uint16_t *p_usReg1Val = p_data;
@@ -158,8 +161,11 @@ void WitSerialDataIn(uint8_t ucData)
                 usData[1] = ((uint16_t)s_ucWitDataBuff[5] << 8) | (uint16_t)s_ucWitDataBuff[4];
                 usData[2] = ((uint16_t)s_ucWitDataBuff[7] << 8) | (uint16_t)s_ucWitDataBuff[6];
                 usData[3] = ((uint16_t)s_ucWitDataBuff[9] << 8) | (uint16_t)s_ucWitDataBuff[8];
-                CopeWitData(s_ucWitDataBuff[1], usData, 4);
+//                CopeWitData(s_ucWitDataBuff[1], usData, 4);
                 s_uiWitDataCnt = 0;
+								ucRegIndex = s_ucWitDataBuff[1];
+								memcpy(usRegDataBuff,usData,8);
+								uiRegDataLen = 4;
             }
         break;
         case WIT_PROTOCOL_MODBUS:

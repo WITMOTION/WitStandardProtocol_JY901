@@ -1,0 +1,18 @@
+--cpu Cortex-M3
+".\obj\main.o"
+".\obj\wit_c_sdk.o"
+".\obj\uart2.o"
+".\obj\uart1.o"
+".\obj\delay.o"
+".\obj\system_stm32f10x.o"
+".\obj\misc.o"
+".\obj\stm32f10x_gpio.o"
+".\obj\stm32f10x_rcc.o"
+".\obj\stm32f10x_usart.o"
+".\obj\stm32f10x_it.o"
+".\obj\startup_stm32f10x_hd.o"
+".\obj\stm32f10x_pwr.o"
+--library_type=microlib --strict --scatter ".\Obj\Project.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list ".\List\Project.map" -o .\Obj\Project.axf

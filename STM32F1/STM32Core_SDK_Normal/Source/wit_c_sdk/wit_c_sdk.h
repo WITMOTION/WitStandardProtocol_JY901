@@ -28,6 +28,7 @@ extern "C" {
 
 
 /* serial function */
+void CopeWitData(uint8_t ucIndex, uint16_t *p_data, uint32_t uiLen);
 typedef void (*SerialWrite)(uint8_t *p_ucData, uint32_t uiLen);
 int32_t WitSerialWriteRegister(SerialWrite write_func);
 void WitSerialDataIn(uint8_t ucData);
