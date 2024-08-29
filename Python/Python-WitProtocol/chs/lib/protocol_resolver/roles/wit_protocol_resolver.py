@@ -197,8 +197,9 @@ class WitProtocolResolver(IProtocolResolver):
         lon = deviceModel.get_unint(bytes([datahex[2],datahex[3],datahex[4],datahex[5]]))
         lat = deviceModel.get_unint(bytes([datahex[6],datahex[7],datahex[8],datahex[9]]))
         #(lon / 10000000 + ((double)(lon % 10000000) / 1e5 / 60.0)).ToString("f8")
-        tlon = lon / 10000000.0
-        tlat = lat / 10000000.0
+        tlon = int(lon / 10000000) + ((lon % 10000000) / 100000 / 60)
+        tlat = int(lat / 10000000) + ((lat % 10000000) / 100000 / 60)
+
         deviceModel.setDeviceData("lon", round(tlon, 8))   # 设备模型经度赋值
         deviceModel.setDeviceData("lat", round(tlat, 8))   # 设备模型纬度赋值
 
