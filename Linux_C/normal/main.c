@@ -149,7 +149,7 @@ static void AutoScanSensor(char* dev)
 		serial_close(fd);
 		s_iCurBaud = c_uiBaud[i];
 		fd = serial_open(dev , c_uiBaud[i]);
-		
+		printf("Try baud :%d\n", s_iCurBaud);
 		iRetry = 2;
 		do
 		{

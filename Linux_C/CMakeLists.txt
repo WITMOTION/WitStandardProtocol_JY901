@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 3.20)
+project(wit_imu)
+set (CMAKE_CXX_STANDARD 11)
+file (GLOB SOURCES "normal/*.c")
+add_executable(${PROJECT_NAME} ${SOURCES})
